@@ -3,12 +3,14 @@ year2 GCD class final project
 
 แปลงข้อความบรรยายนิทานพื้นบ้านและสร้างเป็นภาพประกอบ
 
-[รับข้อความนิทาน]
-        ↓
-[แยกฉาก/ประโยคสำคัญ]
-        ↓
-[แปล/สรุปเป็น prompt ภาษาอังกฤษ]
-        ↓
-[ส่งเข้า AI สร้างภาพ]
-        ↓
-[แสดงผลภาพประกอบเรื่อง]
+[1] รับข้อความนิทาน (Text Input)
+         ↓
+[2] แยกฉาก / ประโยคด้วย NLP (Text Segmentation)
+         ↓
+[3] สกัดใจความ / ดึง keyword (Keyphrase Extraction)
+         ↓
+[4] แปลเป็น Prompt ภาษาอังกฤษ (Translate to Prompt)
+         ↓
+[5] ส่งเข้า Generative AI เพื่อสร้างภาพ (Image Generation)
+         ↓
+[6] แสดงภาพ + ข้อความ / บันทึกไฟล์ (Output Presentation)

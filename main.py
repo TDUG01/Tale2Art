@@ -14,7 +14,7 @@ api_key = os.getenv("API_KEY")
 huggingface_hub.login(token=api_key)
 
 pipe = StableDiffusionPipeline .from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype = torch.float16)
-pipe = pipe.to("cuda")
+pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 
 if __name__ == "__main__":

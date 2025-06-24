@@ -5,7 +5,7 @@ import torch
 from pythainlp.tokenize import sent_tokenize
 from deep_translator import GoogleTranslator
 from dotenv import load_dotenv
-from diffusers import DiffusionPipeline
+from diffusers import StableDiffusionPipeline
 
 
 # setup
@@ -13,7 +13,7 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 huggingface_hub.login(token=api_key)
 
-pipe = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-3.5-large", torch_dtype = torch.float16, variant = "fp16")
+pipe = StableDiffusionPipeline .from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype = torch.float16)
 pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 

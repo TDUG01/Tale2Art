@@ -5,7 +5,7 @@ import torch
 from pythainlp.tokenize import sent_tokenize
 from deep_translator import GoogleTranslator
 from dotenv import load_dotenv
-from diffusers import StableDiffusionPipeline
+from diffusers import DiffusionPipeline
 
 
 # setup
@@ -13,13 +13,13 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 huggingface_hub.login(token=api_key)
 
-pipe = StableDiffusionPipeline .from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype = torch.float16)
+pipe = DiffusionPipeline.from_pretrained("city96/stable-diffusion-3.5-large-gguf")
 pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 
 if __name__ == "__main__":
     prompt = "A fantasy princess sitting in a golden castle, highly detailed, magical atmosphere"
-    image = pipe(prompt=prompt).images[0]
+    image = pipe(prompt=prompt, height=384, width=384).images[0]
     image.save("princess_sd35.png")
     
     print("done")

@@ -21,7 +21,6 @@ pipe_img = pipe_img.to("cuda" if torch.cuda.is_available() else "cpu")
 
 def processing_text(text):
     eng_text = GoogleTranslator(input='auto', output='en').translate(text)
-    #elists = nltk.tokenize.sent_tokenize(eng_text, language='english')
     elists = nlp(eng_text).sents
     lists = [i.text.strip() for i in elists]
     return lists

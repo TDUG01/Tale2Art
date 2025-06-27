@@ -16,24 +16,22 @@ api_key = os.getenv("API_KEY")
 huggingface_hub.login(token=api_key)
 nlp = en_core_web_trf.load()
 
-pipe_img = DiffusionPipeline.from_pretrained("")
+pipe_img = DiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
 pipe_img = pipe_img.to("cuda" if torch.cuda.is_available() else "cpu")
 
-
-ntext =  """ในแม่น้ำสายหนึ่งมีจระเข้ชุกชุมถึงสามสายพันธุ์ด้วยกัน จึงทำให้ไม่มีใครกล้ามาจับปลา มีเพียงตาอยู่คนเดียวเท่านั้นที่คลุกคลีกับจระเข้และจับปลามาขายได้ เมื่อชาวบ้านเดือดร้อนที่ใช้แม่น้ำหล่อเลี้ยงชีวิตไม่ได้ เรื่องนี้จึงร้อนถึงหูพระราชา ตาอยู่จึงได้บอกกับพระราชาไปว่า ได้เลี้ยงจระเข้ตัวหนึ่งตั้งแต่ยังเล็กมันจึงไม่ทำร้าย ส่วนจระเข้ตัวอื่นถ้ามันกินอิ่มมันก็จะไม่ทำร้ายคน
-
-พระราชาจึงได้มีพระราชโองการสั่งให้เสมียนไปนับจำนวนจระเข้เพื่อที่จะได้นำอาหารไปเลี้ยงพวกมันได้อย่างทั่วถึง เสมียนทั้งสามคนก็พยายามนับจระเข้ที่อยู่ทั้งบนบกและในน้ำ สุดท้ายก็นับจระเข้ได้คนละหนึ่งพันตัว รวมทั้งหมดมีจระเข้ถึงสามพันตัว และพระราชาก็ได้สั่งให้เลี้ยงอาหารจระเข้จนอิ่มและไม่ออกมาทำร้ายชาวบ้าน และหากินในแม่น้ำแห่งนี้ได้อย่างมีความสุข นิทานเรื่องนี้เป็นตำนานหรือนิทานพื้นบ้านของจังหวัดสุพรรณบุรี จนกลายมาเป็นชื่อตำบลจระเข้สามพันจนถึงทุกวันนี้"""
 
 def processing_text(text):
     eng_text = GoogleTranslator(input='auto', output='en').translate(text)
     #elists = nltk.tokenize.sent_tokenize(eng_text, language='english')
     elists = nlp(eng_text).sents
-    for i in elists:
-        print(f'Create an illustration of : "{i.text.strip()}"')
+    lists = [i.text.strip() for i in elists]
+    return lists
 
-    """
-     
-    """
+def generate_image(text, number=1):
+    prompt = f'Create an illustration of : "{text}"'
+    image = pipe_img(prompt=prompt, height=512, width=512).images[0]
+    image.save(f"page{number}.png")
+        
 
 class App:
     def __init__(self, root):
@@ -58,7 +56,7 @@ root = tk.Tk()
 if __name__ == "__main__":
     prompt = 'Create an illustration of : "In one river, there were three species of crocodiles."'
     image = pipe_img(prompt=prompt, height=512, width=512).images[0]
-    image.save("princess_sd35.png")
+    image.save("page1.png")
     
     print("done")
     #app = App(root)

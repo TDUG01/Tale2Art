@@ -59,21 +59,21 @@ class Process_App:
         self.root = tk.Tk()
         self.p_lists = p_lists
         self.max = len(self.p_lists)
-        self.now = 0
         self.root.title("Processing...")
         
-        self.label = tk.Label(self.root, text=f"{self.now+1}/{self.max} Processing...")
-        self.label.pack()
-        if self.now == self.max:
-            self.button = tk.Button(self.root, text='Finish', command=self.finish)
-            self.button.pack()
-        
-        generate_image(self.p_lists[self.now], self.now+1)
-        self.now += 1
-        
+        self.process()
         
         self.root.mainloop()
-        
+    
+    def process(self):
+        for self.now in range(self.max):
+            self.label = tk.Label(self.root, text=f"{self.p_lists[self.now]} | {self.now+1}/{self.max} Processing...")
+            self.label.pack()
+            self.root.update()
+            generate_image(self.p_lists[self.now], self.now+1)
+        time.sleep(0.5)
+        self.button = tk.Button(self.root, text='Finish', command=self.finish)
+        self.button.pack()
     
     def finish(self):
         self.root.destroy()

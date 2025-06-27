@@ -2,8 +2,6 @@ import os
 import tkinter as tk
 import huggingface_hub
 import torch
-import nltk
-import spacy
 import en_core_web_trf
 from deep_translator import GoogleTranslator
 from dotenv import load_dotenv
@@ -30,34 +28,63 @@ def processing_text(text):
 def generate_image(text, number=1):
     prompt = f'Create an illustration of : "{text}"'
     image = pipe_img(prompt=prompt, height=512, width=512).images[0]
-    image.save(f"page{number}.png")
+    image.save(f"images/page{number}.png")
+      
         
+p_lists = []
 
-class App:
-    def __init__(self, root):
-        self.root = root
-        root.title("Tale2Art")
-        root.geometry("800x600")
+class Input_App:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Tale2Art")
         
-        self.label = tk.Label(root, text='Enter text:', width=50, height=5)
+        self.label = tk.Label(self.root, text='Enter text:')
         self.label.pack()
+        self.story = tk.Text(self.root, width=40, height=10)
+        self.story.pack(ipadx=60, ipady=7)
         
-        self.story = tk.Entry(root)
-        self.story.pack()
-        
-        self.button = tk.Button(root, text='Generate', command=self.process_text)
+        self.button = tk.Button(self.root, text='Generate', command=self.process_text)
         self.button.pack()
+        
+        self.root.mainloop()
     def process_text(self):
-        text = self.story.get()
-        processing_text(text)
-
-
-root = tk.Tk()
-if __name__ == "__main__":
-    prompt = 'Create an illustration of : "In one river, there were three species of crocodiles."'
-    image = pipe_img(prompt=prompt, height=512, width=512).images[0]
-    image.save("page1.png")
+        text = self.story.get("1.0", tk.END)
+        p_lists = processing_text(text)
+        self.root.destroy()
+        
+class Process_App:
+    def __init__(self, p_lists):
+        self.root = tk.Tk()
+        self.p_lists = p_lists
+        self.max = len(self.p_lists)
+        self.now = 0
+        self.root.title("Processing...")
+        
+        self.label = tk.Label(self.root, text=f"{self.p_lists[self.now]} | {self.now+1}/{self.max} Processing...")
+        self.label.pack()
+        self.process()
+        
+        if self.now == self.max:
+            self.button = tk.Button(self.root, text='Finish', command=self.finish)
+            self.button.pack()
+        
+        self.root.mainloop()
+        
+    def process(self):
+        for i in range(self.max):
+            generate_image(self.p_lists[i], self.now+1)
+            self.now += 1
+            self.label.config(text=f"{self.p_lists[self.now]} | {self.now+1}/{self.max} Processing...")
+            self.root.update()
     
-    print("done")
-    #app = App(root)
-    #root.mainloop()
+    def finish(self):
+        self.root.destroy()
+        
+
+if __name__ == "__main__":
+    os.makedirs("images", exist_ok=True)
+    
+    Input_App()
+    
+    Process_App(p_lists)
+    

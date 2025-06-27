@@ -6,13 +6,15 @@ year2 GCD class final project
 ```
 [1] รับข้อความนิทาน (Text Input)
          ↓
-[2] แยกฉาก / ประโยคด้วย NLP (Text Segmentation)
+[2] แปลเป็น Prompt ภาษาอังกฤษ (Translate to Prompt)
          ↓
-[3] สกัดใจความ / ดึง keyword (Keyphrase Extraction)
+[3] แยกฉาก / ประโยคด้วย NLP (Text Segmentation)
          ↓
-[4] แปลเป็น Prompt ภาษาอังกฤษ (Translate to Prompt)
+[4] ส่งเข้า Generative AI เพื่อสร้างภาพ (Image Generation)
          ↓
-[5] ส่งเข้า Generative AI เพื่อสร้างภาพ (Image Generation)
-         ↓
-[6] แสดงภาพ + ข้อความ / บันทึกไฟล์ (Output Presentation)
+[5] แสดงภาพ + ข้อความ / บันทึกไฟล์ (Output Presentation)
 ```
+
+##############
+#..อย่าลืมAPI..#
+##############

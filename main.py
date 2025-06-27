@@ -3,6 +3,7 @@ import tkinter as tk
 import huggingface_hub
 import torch
 import en_core_web_trf
+import time
 from deep_translator import GoogleTranslator
 from dotenv import load_dotenv
 from diffusers import DiffusionPipeline
@@ -49,11 +50,12 @@ class Input_App:
         self.root.mainloop()
     def process_text(self):
         text = self.story.get("1.0", tk.END)
-        p_lists = processing_text(text)
+        self.p_lists = processing_text(text)
+        time.sleep(1)
         self.root.destroy()
         
 class Process_App:
-    def __init__(self, p_lists):
+    def __init__(self):
         self.root = tk.Tk()
         self.p_lists = p_lists
         self.max = len(self.p_lists)
@@ -84,7 +86,9 @@ class Process_App:
 if __name__ == "__main__":
     os.makedirs("images", exist_ok=True)
     
-    Input_App()
+    p_lists = Input_App().p_lists
     
-    Process_App(p_lists)
+    Process_App()
+    
+    print("Done")
     

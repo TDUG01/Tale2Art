@@ -2,6 +2,8 @@ deep-translator==1.11.4
 en_core_web_trf==3.8.0
 python-dotenv==1.1.0
 huggingface-hub==0.33.0
-torch==2.6.0
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
 diffusers==0.33.1
 spacy==3.8.7
